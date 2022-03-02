@@ -34,7 +34,8 @@ public class UgyfelKiszolgalo implements Runnable {
                         toClient.writeUTF("Előrejelzések száma: " + getElorejelzesekSzama());
                         break;
                     case 2:
-                        toClient.writeUTF("25 van a hőmérsékletek között: " + vanIlyenHomerseklet(25));
+                        toClient.writeUTF("Mai minimum hőmérsékletek összege: " + maiMinimumHomersekletekOsszege());
+
                         break;
                     case 3:
                         toClient.writeUTF("Holnapi havas megyék: " + holnapiHavasok());
@@ -47,6 +48,9 @@ public class UgyfelKiszolgalo implements Runnable {
                         break;
                     case 6:
                         toClient.writeUTF("Holnapi maximum hőmérsékletek összege: " + holnapiMaximumHomersekletekOsszege());
+                        break;
+                    case 7:
+                        toClient.writeUTF("25 van a hőmérsékletek között: " + vanIlyenHomerseklet(25));
                         break;
                     }
                     toClient.flush();
@@ -151,6 +155,14 @@ public class UgyfelKiszolgalo implements Runnable {
         int osszeg = 0;
         for (Map.Entry<String, Idojaras> entry: elorejelzesek.entrySet()) {
             osszeg += entry.getValue().getHolnapi().getMax();
+        }
+        return osszeg;
+    }
+
+    public int maiMinimumHomersekletekOsszege() {
+        int osszeg = 0;
+        for (Map.Entry<String, Idojaras> entry: elorejelzesek.entrySet()) {
+            osszeg += entry.getValue().getMai().getMin();
         }
         return osszeg;
     }
